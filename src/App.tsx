@@ -1,33 +1,39 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import {useState} from 'react';
+import LotteryBall from './lottery_ball/lottery_ball';
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [balls, setBalls] = useState(
+    [5, 11, 16, 23, 32]
+  )
+
+  const newNumbers = () => {
+    const numbersArr: number[] = [];
+    for (let i = 0; i < 5; i++) {
+      const num = Math.floor((Math.random() * 32) + 5);
+      if (numbersArr.includes(num)) {
+        i--;
+      } else {
+        numbersArr.push(num);
+      }
+    }
+    numbersArr.sort((a, b) => a - b);
+
+    setBalls(
+      numbersArr
+    )
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <button onClick={newNumbers}>New numbers</button>
+      <div className="balls">
+        <LotteryBall number={balls[0]}></LotteryBall>
+        <LotteryBall number={balls[1]}></LotteryBall>
+        <LotteryBall number={balls[2]}></LotteryBall>
+        <LotteryBall number={balls[3]}></LotteryBall>
+        <LotteryBall number={balls[4]}></LotteryBall>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Start my homework!!!
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
